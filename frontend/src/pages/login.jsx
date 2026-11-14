@@ -1,7 +1,9 @@
 
 import React from 'react'
 import { useState } from 'react'
-import { User, Lock, Eye } from "lucide-react";
+import { User, Lock, Eye, EyeOff } from "lucide-react";
+import employeeImg from "../assets/employee.png";
+import managerImg from "../assets/m-new.png";   
 
 const Login = () => {
     const [login, setlogin] = useState("Employee")
@@ -9,10 +11,12 @@ const Login = () => {
 
     return (
         <div className='relative h-screen w-full overflow-hidden'>
-
+        {login==="Employee"? <img src={employeeImg} alt="Employee illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 left-0' />: <img src={managerImg} alt="Manager illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 right-0 z-20' />} 
+        
 
             {/* Main Background */}
             <div className="relative z-10 h-screen w-full flex justify-center items-center">
+                
                 {/* Employee Background */}
                 <svg
                     viewBox="0 0 1000 600"
@@ -40,9 +44,9 @@ const Login = () => {
                 </svg>
 
                 {/* Login Card */}
-                <div className="logincard bg-white w-[90%] max-w-[400px] min-h-[300px] p-6 rounded-xl shadow-lg relative z-10">
+                <div className="logincard bg-white w-[90%] max-w-[400px] min-h-[300px] p-4 md:p-6 rounded-xl shadow-lg relative z-10">
                     <form action="" className='flex flex-col gap-4'>
-                        <h1 className='text-2xl font-bold text-center'>
+                        <h1 className='text-xl md:text-2xl font-bold text-center'>
                             {login} Login
                         </h1>
 
@@ -54,7 +58,7 @@ const Login = () => {
                                 placeholder="Enter your email"
                                 className="flex-1 p-3 outline-none"
                             />
-                          
+
                         </div>
                         <div className="flex items-center border rounded-lg px-3 transition-all focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-100">
                             <Lock size={20} />
@@ -65,7 +69,11 @@ const Login = () => {
                                 className="flex-1 p-3 outline-none"
 
                             />
-                            <Eye size={20} className='cursor-pointer' onClick={()=>{setshow(!show)}}/>
+                            {show ? (
+                                <Eye size={20} className='cursor-pointer' onClick={() => { setshow(!show) }} />
+                            ) : (
+                                <EyeOff size={20} className='cursor-pointer' onClick={() => { setshow(!show) }} />
+                            )}
                         </div>
                         <a href="/" target="_blank" className='text-green-400 text-end'>
                             forgot password?
@@ -96,6 +104,8 @@ const Login = () => {
                 </button>
             </div>
 
+
+        
         </div>
     )
 }
