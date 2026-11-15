@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { User, Lock, Eye, EyeOff } from "lucide-react";
 import employeeImg from "../assets/employee.png";
-import managerImg from "../assets/m-new.png";   
+import managerImg from "../assets/manager.png";   
 
 const Login = () => {
     const [login, setlogin] = useState("Employee")
