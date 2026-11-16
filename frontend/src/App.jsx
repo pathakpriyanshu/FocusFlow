@@ -1,11 +1,17 @@
 import React from 'react'
 import Login from './pages/login'
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
-    <div>
-      <Login/>
-    </div>
+    {
+      path: "/",
+      element: <Login />
+    },
+    {
+      path: "/dashboard",
+      element: <Dashboard />
+    }
   )
 }
 
