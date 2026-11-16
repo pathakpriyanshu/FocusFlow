@@ -11,14 +11,15 @@ const port = process.env.PORT
 const mongo_url = process.env.MONGO_URI
 
 //Middlewares
-app.use(express.json());
-app.use(cookieParser())
-app.use("/api/users", userRoute);
-app.use("/api/users", loginRoute)
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }))
+app.use(express.json());
+app.use(cookieParser())
+app.use("/api/users", userRoute);
+app.use("/api/users", loginRoute)
+
 
 
 

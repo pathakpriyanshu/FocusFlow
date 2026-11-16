@@ -1,23 +1,72 @@
 
 import React from 'react'
 import { useState } from 'react'
+import { useForm } from "react-hook-form";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
 import employeeImg from "../assets/employee.png";
-import managerImg from "../assets/manager.png";   
+import managerImg from "../assets/manager.png";
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+
     const [login, setlogin] = useState("Employee")
     const [show, setshow] = useState(false)
 
+    const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting }
+    } = useForm({
+        mode: "onSubmit",
+        reValidateMode: "onSubmit",
+        shouldFocusError: false
+    });
+
+    const onSubmit = async (data) => {
+        try {
+            const requestData = {
+                ...data,
+                role: login.toLowerCase()
+            };
+
+            const response = await fetch("http://localhost:3000/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify(requestData)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                alert(result.message);
+                return;
+            }
+
+            navigate("/dashboard", {
+                state: {
+                    user: result.user
+                }
+            });
+
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Unable to connect to the server");
+        }
+    };
+
     return (
         <div className='relative h-screen w-full overflow-hidden'>
-        {login==="Employee"? <img src={employeeImg} alt="Employee illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 left-0' />: <img src={managerImg} alt="Manager illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 right-0 z-20' />} 
-        
+            {login === "Employee" ? <img src={employeeImg} alt="Employee illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 left-0' /> : <img src={managerImg} alt="Manager illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 right-0 z-20' />}
+
 
             {/* Main Background */}
             <div className="relative z-10 h-screen w-full flex justify-center items-center">
-                
+
                 {/* Employee Background */}
                 <svg
                     viewBox="0 0 1000 600"
@@ -46,7 +95,7 @@ const Login = () => {
 
                 {/* Login Card */}
                 <div className="logincard bg-white w-[90%] max-w-[400px] min-h-[300px] p-4 md:p-6 rounded-xl shadow-lg relative z-10">
-                    <form action="" className='flex flex-col gap-4'>
+                    <form action="" noValidate onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
                         <h1 className='text-xl md:text-2xl font-bold text-center'>
                             {login} Login
                         </h1>
@@ -55,12 +104,23 @@ const Login = () => {
                             <User size={20} />
 
                             <input
-                                type="text"
+                                type="email"
                                 placeholder="Enter your email"
                                 className="flex-1 p-3 outline-none"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: "Please enter a valid email"
+                                    }
+                                })}
                             />
 
                         </div>
+                        {errors.email && (
+                            <p className="text-red-500 text-sm">{errors.email.message}</p>
+                        )}
+
                         <div className="flex items-center border rounded-lg px-3 transition-all focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-100">
                             <Lock size={20} />
 
@@ -68,7 +128,9 @@ const Login = () => {
                                 type={show ? "text" : "password"}
                                 placeholder="Enter your password"
                                 className="flex-1 p-3 outline-none"
-
+                                {...register("password", {
+                                    required: "password is required"
+                                })}
                             />
                             {show ? (
                                 <Eye size={20} className='cursor-pointer' onClick={() => { setshow(!show) }} />
@@ -76,6 +138,11 @@ const Login = () => {
                                 <EyeOff size={20} className='cursor-pointer' onClick={() => { setshow(!show) }} />
                             )}
                         </div>
+
+                        {errors.password && (
+                            <p className="text-red-500 text-sm">{errors.password.message}</p>
+                        )}
+
                         <a href="/" target="_blank" className='text-green-400 text-end'>
                             forgot password?
                         </a>
@@ -106,7 +173,7 @@ const Login = () => {
             </div>
 
 
-        
+
         </div>
     )
 }

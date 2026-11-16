@@ -1,18 +1,20 @@
-import React from 'react'
-import Login from './pages/login'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
-const App = () => {
-  return (
+const router = createBrowserRouter([
     {
-      path: "/",
-      element: <Login />
+        path: "/",
+        element: <Login />
     },
     {
-      path: "/dashboard",
-      element: <Dashboard />
+        path: "/dashboard",
+        element: <Dashboard />
     }
-  )
+]);
+
+function App() {
+    return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
