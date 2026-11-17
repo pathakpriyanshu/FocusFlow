@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const userRoute = require("./routes/userroutes");
 const loginRoute = require("./routes/loginRoute")
+const projectRoute = require("./routes/projectRoutes");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config()
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use("/api/users", userRoute);
 app.use("/api/users", loginRoute)
+app.use("/api/projects", projectRoute);
 
 
 
