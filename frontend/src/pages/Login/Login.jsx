@@ -3,8 +3,8 @@ import React from 'react'
 import { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
-import employeeImg from "../assets/employee.png";
-import managerImg from "../assets/manager.png";
+import employeeImg from "../../assets/employee.png";
+import managerImg from "../../assets/manager.png";
 import { useNavigate } from "react-router-dom";
 
 
