@@ -47,7 +47,7 @@ const Login = () => {
                 return;
             }
 
-            navigate("/dashboard", {
+            navigate("/manager/dashboard", {
                 state: {
                     user: result.user
                 }
