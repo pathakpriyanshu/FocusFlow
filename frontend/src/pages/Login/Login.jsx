@@ -61,11 +61,15 @@ const Login = () => {
 
     return (
         <div className='relative h-screen w-full overflow-hidden'>
-            {login === "Employee" ? <img src={employeeImg} alt="Employee illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 left-0' /> : <img src={managerImg} alt="Manager illustration" className='w-[180px] sm:w-[250px] lg:w-[400px] hidden min-[1100px]:block absolute bottom-0 right-0 z-20' />}
+            
 
 
             {/* Main Background */}
             <div className="relative z-10 h-screen w-full flex justify-center items-center">
+
+
+            {/* Conditional image rendering on login page */}
+            {login === "Employee" ? (<img src={employeeImg} alt="Employee illustration" className='hidden min-[1080px]:block w-[400px] absolute bottom-0 left-0' />) : (<img src={managerImg} alt="Manager illustration" className='hidden min-[1080px]:block w-[350px] absolute bottom-0 right-0 z-20' />)}
 
                 {/* Employee Background */}
                 <svg
